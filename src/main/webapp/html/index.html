@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>功能</title>
+    <style>
+        .container {
+            width: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>工作坊課程資訊</h2>
+        <div class="function">
+            <button class="GetAllEmps">查詢所有資料</button>
+            <p></p>
+ 			<form method="post" action="../SearchByDate">
+				日期 : <input type="text" name="COURSE_DATE" />
+					
+			<input type="submit" value="查詢" />
+			</form>
+			
+			<br>
+            
+
+            <button class="add">新增資料</button>
+            <p></p>
+
+        </div>
+
+
+    </div>
+    <script>
+        const add = document.querySelector('.add')
+        add.addEventListener('click', function () {
+            location.href = 'insert.html'
+        })
+
+        
+
+        const getAll = document.querySelector('.GetAllEmps')
+        getAll.addEventListener('click', function () {
+            location.href = '../all'
+        })
+    </script>
+</body>
+
+</html>
