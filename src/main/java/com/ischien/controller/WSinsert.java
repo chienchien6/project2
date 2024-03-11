@@ -24,12 +24,12 @@ import com.ischien.dao.EmpDao;
 
 
 
-@WebServlet("/insert")
-public class insert extends HttpServlet {
+@WebServlet("/WSinsert")
+public class WSinsert extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
    
-    public insert() {
+    public WSinsert() {
         super();
     }
 
@@ -59,7 +59,7 @@ public class insert extends HttpServlet {
 		System.out.println(emp);
 		
 		dao.insert(emp);
-		request.getRequestDispatcher("/JSP/insert.jsp").forward(request, response); 
+		request.getRequestDispatcher("/JSP/WSinsert.jsp").forward(request, response); 
 
 		
 		

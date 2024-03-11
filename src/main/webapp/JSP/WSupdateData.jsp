@@ -9,7 +9,7 @@
 <body style="bakground-color:#fdf5e6">
 <div align="center">
 <h2>工作坊課程資訊</h2>
-<form method="post" action="update">
+<form method="post" action="WSupdate">
 <jsp:useBean id="emp" scope="request" class="com.ischien.bean.EmpBean"/>
 	<table>
 	<tr><td>課程編號
@@ -20,9 +20,9 @@
 	<tr><td>上課老師<td><input type="text" value="<%= emp.getTeacher() %>" name="TEACHER">
 	<tr><td>上課地點<td><input type="text" value="<%= emp.getLocation() %>" name="LOCATION">
 	<tr><td>課程價格<td><input type="text" value="<%= emp.getPrice() %>" name="PRICE">
-	<input type="submit" value="確定"/>
 
 	</table>
+	<button name="type" value="upData">確定</button>
 </form>
 </div>
 

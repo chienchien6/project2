@@ -35,12 +35,11 @@
 //		
 //		request.setCharacterEncoding("UTF-8");
 //		
-//		
 //		EmpDao empDAO = new EmpDao();
 //		String type = request.getParameter("type");
 //		String delete = request.getParameter("delete");
 //		String upData = request.getParameter("upData");
-//		
+//
 //		DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //		
 //        EmpBean emp =new EmpBean();
@@ -56,13 +55,15 @@
 //		emp.setLocation(request.getParameter("LOCATION"));
 //		emp.setPrice(Integer.parseInt(request.getParameter("PRICE")) );
 //		
+//		
+//		
 //			if (type != null) {
 //
 //				switch (type) {
 //
 //				case "select": {
 //					System.out.println(request.getParameter("ename"));
-//					empDAO.select(request, response, conn);
+//					EmpDao.GetDatas(request, response, conn);
 //					request.getRequestDispatcher("/jsp/GetAllEmps.jsp").forward(request, response);
 //					break;
 //				}
@@ -76,7 +77,7 @@
 //				}
 //
 //				case "insert": {
-//					EmpDao.insert(request, response, connection, empBean);
+//					EmpDao.insert(request, response, conn, empBean);
 //					break;
 //
 //				} /*

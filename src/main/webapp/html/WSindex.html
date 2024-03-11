@@ -14,20 +14,17 @@
 
 <body>
     <div class="container">
-        <h2>工作坊課程資訊</h2>
+        <h2>工作坊課程商品</h2>
         <div class="function">
-            <button class="GetAllEmps">查詢所有資料</button>
+            <button class="WSGetAllEmps">查詢所有資料</button>
             <p></p>
- 			<form method="post" action="../SearchByDate">
-				日期 : <input type="text" name="COURSE_DATE" />
-					
-			<input type="submit" value="查詢" />
+ 			<form method="post" action="../WSSearchByDate">
+				日期 : <input type="text" name="COURSE_DATE" /><button name="type" value="select">查詢</button>
+								
 			</form>
 			
 			<br>
-            
-
-            <button class="add">新增資料</button>
+       <button class="add">新增資料</button>
             <p></p>
 
         </div>
@@ -37,14 +34,14 @@
     <script>
         const add = document.querySelector('.add')
         add.addEventListener('click', function () {
-            location.href = 'insert.html'
+            location.href = 'WSinsert.html'
         })
 
         
 
-        const getAll = document.querySelector('.GetAllEmps')
+        const getAll = document.querySelector('.WSGetAllEmps')
         getAll.addEventListener('click', function () {
-            location.href = '../all'
+            location.href = '../WSall'
         })
     </script>
 </body>

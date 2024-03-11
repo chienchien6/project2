@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -24,12 +25,12 @@ import com.ischien.dao.EmpDao;
 
 
 
-@WebServlet("/update")
-public class update extends HttpServlet {
+@WebServlet("/WSupdate")
+public class WSupdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
    
-    public update() {
+    public WSupdate() {
         super();
     }
 
@@ -37,7 +38,9 @@ public class update extends HttpServlet {
     Connection conn;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		
 		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 	
 		
 		DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -60,7 +63,13 @@ public class update extends HttpServlet {
 		dao.update(emp);
 		
 		request.setAttribute("emp", emp);
-		request.getRequestDispatcher("/JSP/update.jsp").forward(request, response); 
+		
+		List<EmpBean> empsBeans = dao.GetDatas();
+		request.setAttribute("emps", empsBeans);
+		request.getRequestDispatcher("/JSP/WSGetAllEmps.jsp")
+		.include(request, response);
+		request.getRequestDispatcher("/JSP/back.jsp")
+		.include(request, response);
 	
 	}
 	

@@ -12,26 +12,28 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import com.ischien.bean.EmpBean;
+import com.ischien.util.Util;
 
 public class EmpDao {
 
 	//新增
+	PreparedStatement stmt;
 	  Connection conn;
 	public void insert(EmpBean emp) {
 //		boolean isSucess = false;
 		
 		try {	
-			Context context = new InitialContext();
-			DataSource ds =(DataSource)context.lookup("java:/comp/env/jdbc/danceActivity");
-			conn = ds.getConnection();
+			
+			conn = Util.createConnection();
 
 		String SQL="INSERT INTO WorkshopCourse VALUES(?,?,?,?,?,?)";
-		PreparedStatement stmt = conn.prepareStatement(SQL);
-				
-			
+		stmt = conn.prepareStatement(SQL);
+					
 			stmt.setDate(1, (Date)emp.getCourseDate());
 			stmt.setString(2, emp.getCourseTime());
 			stmt.setString(3, emp.getCourseName());
@@ -40,50 +42,42 @@ public class EmpDao {
 			stmt.setInt(6, emp.getPrice());
 			stmt.execute();
 	
-		stmt.close();
-		conn.close();
 				
 		}  catch (SQLException e) {		
 			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}		
+		}finally {
+			Util.closeConnection(conn,stmt);
+		}	
 	}
 	//刪除
+
 	public void delete(String courseId) {
 		 Connection conn =null;
 		try {	
 			 
-			Context context = new InitialContext();
-			DataSource ds =(DataSource)context.lookup("java:/comp/env/jdbc/danceActivity");
-			conn = ds.getConnection();
+			conn = Util.createConnection();
 
 		String SQL="DELETE WorkshopCourse WHERE COURSEID=?";
 		PreparedStatement stmt = conn.prepareStatement(SQL);
 			stmt.setString(1, courseId);		
 			stmt.execute();
-			
-		stmt.close();
-		conn.close();
+
 			
 		}  catch (SQLException e) {		
 			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
+		}finally {
+			Util.closeConnection(conn,stmt);
 		}
-		
 	}
 	
 	//查單筆
+	ResultSet rs ;
 		public EmpBean GetData(String courseId) {
 			Connection conn =null;
 			EmpBean emp =new EmpBean();
 			
 			try {	
-				Context context = new InitialContext();
-				DataSource ds =(DataSource)context.lookup("java:/comp/env/jdbc/danceActivity");
-				conn = ds.getConnection();
-
+				conn = Util.createConnection();
 
 				String SQL="SELECT*FROM WorkshopCourse WHERE COURSEID=?";
 				PreparedStatement stmt = conn.prepareStatement(SQL);	
@@ -91,7 +85,7 @@ public class EmpDao {
 				
 //				stmt.execute();
 				
-				ResultSet rs =stmt.executeQuery();
+				rs =stmt.executeQuery();
 				
 				while(rs.next()) {
 					
@@ -104,13 +98,11 @@ public class EmpDao {
 					emp.setPrice(rs.getInt("PRICE"));
 				}
 
-			stmt.close();
-			conn.close();
 		
 			}  catch (SQLException e) {		
 				e.printStackTrace();
-			} catch (NamingException e) {
-				e.printStackTrace();
+			} finally {
+				Util.closeConnection(conn,stmt,rs);
 			}	
 			return emp;
 		}
@@ -122,9 +114,7 @@ public class EmpDao {
 		List<EmpBean> emps = new ArrayList<EmpBean>();
 		
 		try {	
-			Context context = new InitialContext();
-			DataSource ds =(DataSource)context.lookup("java:/comp/env/jdbc/danceActivity");
-			conn = ds.getConnection();
+			conn = Util.createConnection();
 
 
 			String SQL="SELECT*FROM WorkshopCourse WHERE COURSE_DATE=?";
@@ -150,16 +140,12 @@ public class EmpDao {
 //				System.out.println(emp);
 				
 			}
-
-		stmt.close();
-		conn.close();
-		rs.close();
 	
 		}  catch (SQLException e) {		
 			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}	
+		} finally {
+			Util.closeConnection(conn,stmt,rs);
+		}		
 		return emps;
 	}
 	
@@ -167,9 +153,7 @@ public class EmpDao {
 	public void update(EmpBean emp) {
 		Connection conn =null;
 		try {	
-			Context context = new InitialContext();
-			DataSource ds =(DataSource)context.lookup("java:/comp/env/jdbc/danceActivity");
-			conn = ds.getConnection();
+			conn = Util.createConnection();
 
 
 			String SQL="UPDATE WorkshopCourse SET COURSE_DATE=?,COURSE_TIME=?,COURSE_NAME=?,TEACHER=?,LOCATION=?,PRICE=? WHERE COURSEID=?";
@@ -184,20 +168,13 @@ public class EmpDao {
 			stmt.setInt(6, emp.getPrice());
 			stmt.setInt(7, emp.getCourseId());
 			stmt.execute();
-
-		
-			
-			
-		stmt.close();
-		conn.close();
-		
+	
 		
 		}  catch (SQLException e) {
 		
 			e.printStackTrace();
-		} catch (NamingException e) {
-			
-			e.printStackTrace();
+		} finally {
+			Util.closeConnection(conn,stmt);
 		}		
 	}
 		
@@ -206,9 +183,7 @@ public class EmpDao {
 		Connection conn =null;
 		List<EmpBean> emps = new ArrayList<EmpBean>();
 		try {
-			Context context = new InitialContext();
-			DataSource ds =(DataSource)context.lookup("java:/comp/env/jdbc/danceActivity");
-			conn = ds.getConnection();
+			conn = Util.createConnection();
 			
 			String SQL="SELECT*FROM WorkshopCourse";
 			PreparedStatement stmt = conn.prepareStatement(SQL);
@@ -229,24 +204,19 @@ public class EmpDao {
 				
 				emps.add(emp);
 			}
-			
-			stmt.close();
-			conn.close();
-			rs.close();
-		
-			
+	
 			
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
-		} catch (NamingException e) {
-			
-			e.printStackTrace();
+		} finally {
+			Util.closeConnection(conn,stmt,rs);
 		}
 		return emps;
 	
 		
 	}
+	
 
 	
 }

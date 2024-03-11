@@ -13,24 +13,30 @@ import com.ischien.bean.EmpBean;
 import com.ischien.dao.EmpDao;
 
 
-@WebServlet("/all")
-public class all extends HttpServlet {
+@WebServlet("/WSall")
+public class WSall extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
-    public all() {
+    public WSall() {
         super();
       
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		EmpDao dao = new EmpDao();
 		List<EmpBean> empsBeans = dao.GetDatas();
+		
 		for(EmpBean empBean:empsBeans) {
 			System.out.println(empBean);
 		}
 		request.setAttribute("emps", empsBeans);
-		request.getRequestDispatcher("/JSP/GetAllEmps.jsp")
-		.forward(request, response);
+		request.getRequestDispatcher("/JSP/WSGetAllEmps.jsp")
+		.include(request, response);
+		request.getRequestDispatcher("/JSP/back.jsp")
+		.include(request, response);
 		
 		
 	}
